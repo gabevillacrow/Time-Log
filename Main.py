@@ -1,6 +1,6 @@
 import time
 import os
-import configparser
+from configparser import ConfigParser
 
 #########################################CLASSES###################################################
 class Time_Codes():
@@ -26,6 +26,11 @@ class Time_Codes():
         self.total_time = self.total_time + (self.end_time - self.start_time)
 
 ###########################################FUNCTIONS##############################################
+#PULLS DATA FROM CONFIG FILE SECTIONS
+#def Get_Config_Data(config):
+#    sections = config.sections()
+#    for key in config[sections]:
+
 #DISPLAY MENU OPTIONS TO USER
 def Display_IO_Options(menu_to_io_codes):
     i = 1
@@ -114,12 +119,13 @@ while eod == False:
     while valid_code == False:
         Display_IO_Options(menu_to_io_codes)
         selected_time_code = Request_IO_Code(current_active_io_name)
+        print(current_active_io_name)
         os.system('cls')
         valid_code = Validate_Code(selected_time_code,current_active_io_name,menu_to_io_codes)
 
     valid_code = False
     if selected_time_code != "EOD":
-        current_active_io_name,current_active_io_num = Clock_In(current_active_io_name,selected_time_code,menu_to_io_codes)
+        current_active_io_name,current_active_io_num = Clock_In(current_active_io_num,selected_time_code,menu_to_io_codes)
     if selected_time_code == "EOD":
         if current_active_io_name == "":
             eod = Closing_Time(menu_to_io_codes)
