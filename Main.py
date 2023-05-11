@@ -26,10 +26,22 @@ class Time_Codes():
         self.total_time = self.total_time + (self.end_time - self.start_time)
 
 ###########################################FUNCTIONS##############################################
-#PULLS DATA FROM CONFIG FILE SECTIONS
-#def Get_Config_Data(config):
-#    sections = config.sections()
-#    for key in config[sections]:
+#PULLS TIME CODES FROM CONFIG FILE
+def Get_Time_Codes(config):
+    config.read('Config.ini')
+    sections = config.sections()
+    time_code_section_index = sections.index('Time Codes')
+    time_code_dict = {}
+    
+    for key in config[sections[time_code_section_index]]:
+        time_code_dict[key] = config.get('Time Codes',key)
+
+    return time_code_dict        
+#CREATES INSTANCES OF TIME CODES
+def Create_Time_Code_Instance(io_var_list,time_code_dict):
+
+    
+    
 
 #DISPLAY MENU OPTIONS TO USER
 def Display_IO_Options(menu_to_io_codes):
@@ -89,33 +101,39 @@ def Closing_Time(menu_to_io_codes):
 #########################################DECLARE VARIABLES###################################################
 
 #IO CODES
-lunch = Time_Codes("Lunch",0000000)
-it_downtime = Time_Codes("IT Downtime",1101693)
-training_compliance = Time_Codes("Training - Compliance",1101704)
-indirect_other = Time_Codes("Indirect - Other",1101681)
-training_on_the_job = Time_Codes("Training - On the Job",1101705)
-meeetings_all_hands = Time_Codes("Meetings - All Hands",1099543)
-meetings_others = Time_Codes("Meetings - Others",1099544)
-cfd_projects = Time_Codes("CFD - Projects",1182541)
-electronics_projects = Time_Codes("Electronics - Projects",1182542)
-firex_projects = Time_Codes("FireX - Projects",1182543)
-overheat_projects = Time_Codes("Overheat - Projects",1182544)
-cfd_support = Time_Codes("CFD - Support",1184286)
-electronics_support = Time_Codes("Electronics - Support",1184287)
-firex_support = Time_Codes("FireX - Support",1184288)
-overheat_support = Time_Codes("Overheat - Support",1184289)
+#lunch = Time_Codes("Lunch",0000000)
+#it_downtime = Time_Codes("IT Downtime",1101693)
+#training_compliance = Time_Codes("Training - Compliance",1101704)
+#indirect_other = Time_Codes("Indirect - Other",1101681)
+#training_on_the_job = Time_Codes("Training - On the Job",1101705)
+#meetings_all_hands = Time_Codes("Meetings - All Hands",1099543)
+#meetings_others = Time_Codes("Meetings - Others",1099544)
+#cfd_projects = Time_Codes("CFD - Projects",1182541)
+#electronics_projects = Time_Codes("Electronics - Projects",1182542)
+#firex_projects = Time_Codes("FireX - Projects",1182543)
+#overheat_projects = Time_Codes("Overheat - Projects",1182544)
+#cfd_support = Time_Codes("CFD - Support",1184286)
+#electronics_support = Time_Codes("Electronics - Support",1184287)
+#firex_support = Time_Codes("FireX - Support",1184288)
+#overheat_support = Time_Codes("Overheat - Support",1184289)
 
 #DICTIONARIES
-menu_to_io_codes = {"1":lunch,"2":it_downtime,"3":training_compliance,"4":indirect_other,"5":training_on_the_job,"6":meeetings_all_hands,"6":meetings_others,"7":cfd_projects,"8":electronics_projects,"9":firex_projects,"10":overheat_projects,"11":cfd_support,"12":electronics_support,"13":firex_support,"14":overheat_support}
+menu_to_io_codes = {"1":lunch,"2":it_downtime,"3":training_compliance,"4":indirect_other,"5":training_on_the_job,"6":meetings_all_hands,"6":meetings_others,"7":cfd_projects,"8":electronics_projects,"9":firex_projects,"10":overheat_projects,"11":cfd_support,"12":electronics_support,"13":firex_support,"14":overheat_support}
 
+#LIST
+io_var_list = [lunch,it_downtime,training_compliance,indirect_other,training_on_the_job,meetings_all_hands,meetings_others,cfd_projects,electronics_projects,firex_projects,overheat_projects,cfd_support,electronics_support,firex_support,overheat_support]
 #OTHER VARIABLES
 current_active_io_name = ""
 current_active_io_num = ""
 valid_code = False
 eod = False
+config = ConfigParser()
 
 #########################################MAIN###################################################
+
+
 while eod == False:
+    time_code_dict = Get_Time_Codes(config)
     while valid_code == False:
         Display_IO_Options(menu_to_io_codes)
         selected_time_code = Request_IO_Code(current_active_io_name)
